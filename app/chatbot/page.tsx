@@ -1,127 +1,242 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard-header"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardContent } from "@/components/ui/card"
-import { Send } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
+import { Bot, Send, User } from "lucide-react"
 import { useAuthCheck } from "@/utils/auth"
 
 export default function ChatbotPage() {
-  useAuthCheck() // This will redirect to login if not authenticated
+  useAuthCheck()
+  const [message, setMessage] = useState("")
+  const [activeTab, setActiveTab] = useState("chat")
 
-  const [messages, setMessages] = useState([
+  // Sample chat history
+  const [chatHistory, setChatHistory] = useState([
     {
       id: 1,
-      content: "Hello! I'm your social media tracking assistant. How can I help you today?",
       sender: "bot",
-      timestamp: new Date().toISOString(),
+      message: "Hello! I'm your social media analytics assistant. How can I help you today?",
+      timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+    },
+    {
+      id: 2,
+      sender: "user",
+      message: "Can you analyze the performance of my latest Instagram post?",
+      timestamp: new Date(Date.now() - 1000 * 60 * 4).toISOString(),
+    },
+    {
+      id: 3,
+      sender: "bot",
+      message:
+        "I've analyzed your latest Instagram post. It's performing 23% better than your average post. The engagement rate is 4.8%, which is excellent. The post received the most engagement between 6-8 PM, primarily from users aged 25-34.",
+      timestamp: new Date(Date.now() - 1000 * 60 * 3).toISOString(),
+    },
+    {
+      id: 4,
+      sender: "user",
+      message: "What can I do to improve engagement further?",
+      timestamp: new Date(Date.now() - 1000 * 60 * 2).toISOString(),
+    },
+    {
+      id: 5,
+      sender: "bot",
+      message:
+        "Based on your audience data, I recommend posting more carousel-style content with multiple images or videos. Also, try posting during peak engagement hours (6-8 PM) and use more interactive elements like polls and questions in your stories to drive engagement. Hashtag analysis shows that using 5-7 targeted hashtags performs better than using too many generic ones.",
+      timestamp: new Date(Date.now() - 1000 * 60).toISOString(),
     },
   ])
-  const [input, setInput] = useState("")
-  const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+  // Function to handle sending a new message
+  const handleSendMessage = () => {
+    if (message.trim() === "") return
 
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
-
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim()) return
-
-    // Add user message
-    const userMessage = {
-      id: messages.length + 1,
-      content: input,
+    // Add user message to chat history
+    const newUserMessage = {
+      id: chatHistory.length + 1,
       sender: "user",
+      message: message,
       timestamp: new Date().toISOString(),
     }
-    setMessages((prev) => [...prev, userMessage])
-    setInput("")
+    setChatHistory([...chatHistory, newUserMessage])
+    setMessage("")
 
-    // Simulate bot response
+    // Simulate bot response after a short delay
     setTimeout(() => {
-      const botResponses = [
-        "I've analyzed the latest data from the subjects you're tracking. Would you like to see a summary?",
-        "There have been 5 new activities from John Doe on Instagram in the last 24 hours.",
-        "Sarah Williams posted 3 new TikTok videos yesterday that gained significant engagement.",
-        "Based on the data, Instagram seems to be the most active platform for your tracked subjects.",
-        "I can provide more detailed analytics if you'd like. Just let me know what you're interested in.",
-      ]
-
-      const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)]
-
-      const botMessage = {
-        id: messages.length + 2,
-        content: randomResponse,
+      const botResponse = {
+        id: chatHistory.length + 2,
         sender: "bot",
+        message:
+          "I've analyzed your request and found some interesting insights. Your content is performing well, but there's room for improvement in your posting schedule and hashtag strategy. Would you like me to generate a detailed report?",
         timestamp: new Date().toISOString(),
       }
-
-      setMessages((prev) => [...prev, botMessage])
+      setChatHistory((prev) => [...prev, botResponse])
     }, 1000)
   }
 
-  const formatTime = (timestamp: string) => {
-    const date = new Date(timestamp)
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-  }
+  // Sample suggested queries
+  const suggestedQueries = [
+    "Analyze my Instagram performance",
+    "Compare engagement across platforms",
+    "Generate content recommendations",
+    "Identify top performing posts",
+    "Analyze audience demographics",
+    "Suggest optimal posting times",
+  ]
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-background">
       <AppSidebar />
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1">
         <DashboardHeader />
-        <div className="flex-1 flex flex-col p-4 md:p-6">
-          <Card className="flex-1 flex flex-col">
-            <CardContent className="flex-1 flex flex-col p-4 overflow-hidden">
-              <div className="flex-1 overflow-y-auto space-y-4 pb-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
-                  >
-                    <div className={`flex gap-3 max-w-[80%] ${message.sender === "user" ? "flex-row-reverse" : ""}`}>
+        <div className="p-6">
+          <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex-1 md:max-w-3xl">
+              <Card className="h-[calc(100vh-12rem)]">
+                <CardHeader className="p-4 border-b">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
                       <Avatar className="h-8 w-8">
-                        {message.sender === "bot" ? <AvatarImage src="/placeholder.svg?height=32&width=32" /> : null}
-                        <AvatarFallback>{message.sender === "bot" ? "B" : "U"}</AvatarFallback>
+                        <AvatarImage src="/placeholder.svg?height=32&width=32" />
+                        <AvatarFallback>
+                          <Bot className="h-4 w-4" />
+                        </AvatarFallback>
                       </Avatar>
-                      <div
-                        className={`rounded-lg p-3 ${
-                          message.sender === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
-                        }`}
-                      >
-                        <p className="text-sm">{message.content}</p>
-                        <p className="text-xs mt-1 opacity-70">{formatTime(message.timestamp)}</p>
+                      <div>
+                        <CardTitle className="text-lg">AI Assistant</CardTitle>
+                        <CardDescription className="text-xs">Powered by advanced analytics</CardDescription>
                       </div>
                     </div>
+                    <Badge variant="outline" className="bg-green-50">
+                      Online
+                    </Badge>
                   </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-              <form onSubmit={handleSendMessage} className="flex items-center gap-2 pt-4 border-t">
-                <Input
-                  placeholder="Ask about your tracked subjects..."
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="flex-1"
-                />
-                <Button type="submit" size="icon">
-                  <Send className="h-4 w-4" />
-                  <span className="sr-only">Send</span>
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+                </CardHeader>
+                <CardContent className="p-0 flex flex-col h-[calc(100%-8rem)]">
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    {chatHistory.map((chat) => (
+                      <div
+                        key={chat.id}
+                        className={`flex ${chat.sender === "user" ? "justify-end" : "justify-start"} gap-2`}
+                      >
+                        {chat.sender === "bot" && (
+                          <Avatar className="h-8 w-8 mt-1">
+                            <AvatarFallback>
+                              <Bot className="h-4 w-4" />
+                            </AvatarFallback>
+                          </Avatar>
+                        )}
+                        <div
+                          className={`max-w-[80%] rounded-lg p-3 ${
+                            chat.sender === "user"
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted text-muted-foreground"
+                          }`}
+                        >
+                          <p className="text-sm">{chat.message}</p>
+                          <p className="text-xs opacity-70 mt-1">
+                            {new Date(chat.timestamp).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
+                        </div>
+                        {chat.sender === "user" && (
+                          <Avatar className="h-8 w-8 mt-1">
+                            <AvatarFallback>
+                              <User className="h-4 w-4" />
+                            </AvatarFallback>
+                          </Avatar>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+                <CardFooter className="p-4 border-t">
+                  <form
+                    className="flex w-full gap-2"
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      handleSendMessage()
+                    }}
+                  >
+                    <Input
+                      placeholder="Type your message..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="flex-1"
+                    />
+                    <Button type="submit" size="icon">
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </form>
+                </CardFooter>
+              </Card>
+            </div>
+
+            <div className="w-full md:w-80">
+              <Tabs defaultValue="suggestions" className="w-full" onValueChange={setActiveTab}>
+                <TabsList className="w-full">
+                  <TabsTrigger value="suggestions" className="flex-1">
+                    Suggestions
+                  </TabsTrigger>
+                  <TabsTrigger value="history" className="flex-1">
+                    History
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="suggestions" className="mt-4 space-y-4">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Suggested Queries</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      {suggestedQueries.map((query, index) => (
+                        <Button
+                          key={index}
+                          variant="outline"
+                          className="w-full justify-start text-sm h-auto py-2"
+                          onClick={() => {
+                            setMessage(query)
+                          }}
+                        >
+                          {query}
+                        </Button>
+                      ))}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="history" className="mt-4 space-y-4">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Recent Conversations</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      {[
+                        "Performance analysis for Instagram",
+                        "Content strategy recommendations",
+                        "Audience growth tactics",
+                        "Hashtag optimization",
+                        "Competitor analysis report",
+                      ].map((item, index) => (
+                        <div key={index} className="border-b pb-2 last:border-0 last:pb-0">
+                          <p className="text-sm font-medium">{item}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(Date.now() - 1000 * 60 * 60 * (index + 1)).toLocaleDateString()}
+                          </p>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
         </div>
       </main>
     </div>

@@ -1,151 +1,154 @@
 "use client"
+
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import {
   BarChart3,
+  Clock,
   CreditCard,
   Home,
+  LayoutDashboard,
+  LogOut,
   MessageSquare,
   Settings,
   User,
   Users,
-  History,
   Video,
-  LogOut,
   HelpCircle,
 } from "lucide-react"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarTrigger,
-  SidebarSeparator,
-  SidebarGroup,
-  SidebarGroupLabel,
-} from "@/components/ui/sidebar"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { logout } from "@/utils/auth"
+import { Separator } from "@/components/ui/separator"
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const router = useRouter()
 
-  const mainMenuItems = [
+  const handleLogout = () => {
+    logout()
+    router.push("/auth/login")
+  }
+
+  const mainRoutes = [
     {
-      title: "Home",
+      label: "Home",
       icon: Home,
       href: "/",
+      active: pathname === "/",
     },
     {
-      title: "Dashboard",
-      icon: BarChart3,
+      label: "Dashboard",
+      icon: LayoutDashboard,
       href: "/dashboard",
+      active: pathname === "/dashboard",
     },
     {
-      title: "Subjects",
+      label: "Subjects",
       icon: Users,
       href: "/subjects",
+      active: pathname === "/subjects",
     },
     {
-      title: "History",
-      icon: History,
+      label: "History",
+      icon: Clock,
       href: "/history",
+      active: pathname === "/history",
     },
     {
-      title: "Videos",
+      label: "Analytics",
+      icon: BarChart3,
+      href: "/analytics",
+      active: pathname === "/analytics",
+    },
+    {
+      label: "Videos",
       icon: Video,
       href: "/videos",
+      active: pathname === "/videos",
     },
     {
-      title: "Chatbot",
+      label: "Chatbot",
       icon: MessageSquare,
       href: "/chatbot",
+      active: pathname === "/chatbot",
+    },
+    {
+      label: "Support",
+      icon: HelpCircle,
+      href: "/support",
+      active: pathname === "/support",
     },
   ]
 
-  const accountMenuItems = [
+  const settingsRoutes = [
     {
-      title: "Settings",
+      label: "Settings",
       icon: Settings,
       href: "/settings",
+      active: pathname === "/settings",
     },
     {
-      title: "Account",
+      label: "Account",
       icon: User,
       href: "/account",
+      active: pathname === "/account",
     },
     {
-      title: "Billing",
+      label: "Billing",
       icon: CreditCard,
       href: "/billing",
-    },
-    {
-      title: "Help & Support",
-      icon: HelpCircle,
-      href: "/support",
+      active: pathname === "/billing",
     },
   ]
 
   return (
-    <>
-      <Sidebar>
-        <SidebarHeader className="flex items-center px-4 py-2">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="rounded-full bg-primary w-8 h-8 flex items-center justify-center text-primary-foreground font-bold">
-              SM
-            </div>
-            <span className="font-bold text-xl">SocialTrack</span>
-          </Link>
-          <div className="ml-auto md:hidden">
-            <SidebarTrigger />
-          </div>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Main</SidebarGroupLabel>
-            <SidebarMenu>
-              {mainMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href} tooltip={item.title}>
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroup>
+    <div className="flex h-full flex-col bg-muted/40 w-[250px] border-r">
+      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+        <Link href="/" className="flex items-center gap-2 font-semibold">
+          <BarChart3 className="h-6 w-6" />
+          <span>Social Tracker</span>
+        </Link>
+      </div>
+      <div className="flex-1 overflow-auto py-2 scrollbar-thin">
+        <nav className="grid items-start px-2 lg:px-4 gap-1">
+          {mainRoutes.map((route) => (
+            <Link
+              key={route.href}
+              href={route.href}
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted/80 transition-all",
+                route.active ? "bg-muted/80 text-primary" : "text-muted-foreground",
+              )}
+            >
+              <route.icon className="h-4 w-4" />
+              {route.label}
+            </Link>
+          ))}
 
-          <SidebarSeparator />
+          <Separator className="my-4" />
 
-          <SidebarGroup>
-            <SidebarGroupLabel>Account</SidebarGroupLabel>
-            <SidebarMenu>
-              {accountMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href} tooltip={item.title}>
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroup>
-        </SidebarContent>
-        <SidebarSeparator />
-        <SidebarFooter className="p-4">
-          <Button variant="outline" className="w-full justify-start gap-2" onClick={logout}>
-            <LogOut className="h-4 w-4" />
-            <span>Log out</span>
-          </Button>
-        </SidebarFooter>
-      </Sidebar>
-    </>
+          {settingsRoutes.map((route) => (
+            <Link
+              key={route.href}
+              href={route.href}
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted/80 transition-all",
+                route.active ? "bg-muted/80 text-primary" : "text-muted-foreground",
+              )}
+            >
+              <route.icon className="h-4 w-4" />
+              {route.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+      <div className="mt-auto p-4 border-t">
+        <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogout}>
+          <LogOut className="h-4 w-4" />
+          Log out
+        </Button>
+      </div>
+    </div>
   )
 }
