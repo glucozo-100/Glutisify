@@ -56,12 +56,6 @@ export function AppSidebar() {
       active: pathname === "/history",
     },
     {
-      label: "Analytics",
-      icon: BarChart3,
-      href: "/analytics",
-      active: pathname === "/analytics",
-    },
-    {
       label: "Videos",
       icon: Video,
       href: "/videos",
@@ -103,49 +97,58 @@ export function AppSidebar() {
   ]
 
   return (
-    <div className="flex h-full flex-col bg-muted/40 w-[250px] border-r">
-      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold">
-          <BarChart3 className="h-6 w-6" />
-          <span>Social Tracker</span>
+    <div className="flex h-full flex-col bg-gradient-to-b from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800 w-[220px] border-r border-blue-100 dark:border-slate-700">
+      <div className="flex h-14 items-center border-b border-blue-100 dark:border-slate-700 px-3">
+        <Link href="/" className="flex items-center gap-2 font-semibold text-blue-700 dark:text-blue-400">
+          <BarChart3 className="h-5 w-5" />
+          <span className="text-sm">Social Tracker</span>
         </Link>
       </div>
       <div className="flex-1 overflow-auto py-2 scrollbar-thin">
-        <nav className="grid items-start px-2 lg:px-4 gap-1">
+        <nav className="grid items-start px-2 gap-0.5">
           {mainRoutes.map((route) => (
             <Link
               key={route.href}
               href={route.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted/80 transition-all",
-                route.active ? "bg-muted/80 text-primary" : "text-muted-foreground",
+                "flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium transition-all",
+                route.active
+                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+                  : "text-slate-600 hover:bg-blue-50 dark:text-slate-300 dark:hover:bg-slate-800/60",
               )}
             >
-              <route.icon className="h-4 w-4" />
+              <route.icon className="h-3.5 w-3.5" />
               {route.label}
             </Link>
           ))}
 
-          <Separator className="my-4" />
+          <Separator className="my-2 bg-blue-100 dark:bg-slate-700" />
 
           {settingsRoutes.map((route) => (
             <Link
               key={route.href}
               href={route.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted/80 transition-all",
-                route.active ? "bg-muted/80 text-primary" : "text-muted-foreground",
+                "flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium transition-all",
+                route.active
+                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+                  : "text-slate-600 hover:bg-blue-50 dark:text-slate-300 dark:hover:bg-slate-800/60",
               )}
             >
-              <route.icon className="h-4 w-4" />
+              <route.icon className="h-3.5 w-3.5" />
               {route.label}
             </Link>
           ))}
         </nav>
       </div>
-      <div className="mt-auto p-4 border-t">
-        <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogout}>
-          <LogOut className="h-4 w-4" />
+      <div className="mt-auto p-2 border-t border-blue-100 dark:border-slate-700">
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full justify-start gap-2 text-xs h-8 bg-white/80 border-blue-100 text-slate-700 hover:bg-blue-50 hover:text-blue-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-blue-300"
+          onClick={handleLogout}
+        >
+          <LogOut className="h-3.5 w-3.5" />
           Log out
         </Button>
       </div>

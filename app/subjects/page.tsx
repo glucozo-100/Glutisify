@@ -106,9 +106,9 @@ export default function SubjectsPage() {
       <AppSidebar />
       <main className="flex-1">
         <DashboardHeader />
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">Subjects</h2>
+        <div className="p-3 md:p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">Subjects</h2>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button>
@@ -163,7 +163,7 @@ export default function SubjectsPage() {
             </Dialog>
           </div>
 
-          <Tabs defaultValue="all" className="space-y-4">
+          <Tabs defaultValue="all" className="space-y-3">
             <TabsList>
               <TabsTrigger value="all">All Subjects</TabsTrigger>
               <TabsTrigger value="instagram">Instagram</TabsTrigger>
@@ -172,10 +172,10 @@ export default function SubjectsPage() {
               <TabsTrigger value="tiktok">TikTok</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {subjects.map((subject) => (
                   <Card key={subject.id}>
-                    <CardHeader className="pb-2">
+                    <CardHeader className="pb-1 pt-3 px-3">
                       <div className="flex items-center gap-2">
                         <Avatar>
                           <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
@@ -190,7 +190,7 @@ export default function SubjectsPage() {
                         </div>
                       </div>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3">
                       <div className="space-y-2">
                         <div className="text-sm text-muted-foreground">Platforms:</div>
                         <div className="flex flex-wrap gap-2">
@@ -203,7 +203,7 @@ export default function SubjectsPage() {
                         </div>
                       </div>
                     </CardContent>
-                    <CardFooter className="flex justify-between">
+                    <CardFooter className="px-3 py-2">
                       <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
                       <Button variant="outline" size="sm">
                         View Details
@@ -214,12 +214,12 @@ export default function SubjectsPage() {
               </div>
             </TabsContent>
             <TabsContent value="instagram" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {subjects
                   .filter((subject) => subject.platforms.some((p) => p.name === "Instagram"))
                   .map((subject) => (
                     <Card key={subject.id}>
-                      <CardHeader className="pb-2">
+                      <CardHeader className="pb-1 pt-3 px-3">
                         <div className="flex items-center gap-2">
                           <Avatar>
                             <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
@@ -234,13 +234,127 @@ export default function SubjectsPage() {
                           </div>
                         </div>
                       </CardHeader>
-                      <CardContent>
+                      <CardContent className="p-3">
                         <div className="space-y-2">
                           <div className="text-sm text-muted-foreground">Instagram Profile:</div>
                           <div className="text-sm">{subject.platforms.find((p) => p.name === "Instagram")?.url}</div>
                         </div>
                       </CardContent>
-                      <CardFooter className="flex justify-between">
+                      <CardFooter className="px-3 py-2">
+                        <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
+                        <Button variant="outline" size="sm">
+                          View Details
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="facebook" className="space-y-4">
+              <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {subjects
+                  .filter((subject) => subject.platforms.some((p) => p.name === "Facebook"))
+                  .map((subject) => (
+                    <Card key={subject.id}>
+                      <CardHeader className="pb-1 pt-3 px-3">
+                        <div className="flex items-center gap-2">
+                          <Avatar>
+                            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                            <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <CardTitle className="text-lg">{subject.name}</CardTitle>
+                            <div className="flex items-center gap-1 mt-1">
+                              <div className={`h-2 w-2 rounded-full ${getActivityColor(subject.activity)}`} />
+                              <CardDescription>{subject.activity} activity</CardDescription>
+                            </div>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-3">
+                        <div className="space-y-2">
+                          <div className="text-sm text-muted-foreground">Facebook Profile:</div>
+                          <div className="text-sm">{subject.platforms.find((p) => p.name === "Facebook")?.url}</div>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="px-3 py-2">
+                        <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
+                        <Button variant="outline" size="sm">
+                          View Details
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="linkedin" className="space-y-4">
+              <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {subjects
+                  .filter((subject) => subject.platforms.some((p) => p.name === "LinkedIn"))
+                  .map((subject) => (
+                    <Card key={subject.id}>
+                      <CardHeader className="pb-1 pt-3 px-3">
+                        <div className="flex items-center gap-2">
+                          <Avatar>
+                            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                            <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <CardTitle className="text-lg">{subject.name}</CardTitle>
+                            <div className="flex items-center gap-1 mt-1">
+                              <div className={`h-2 w-2 rounded-full ${getActivityColor(subject.activity)}`} />
+                              <CardDescription>{subject.activity} activity</CardDescription>
+                            </div>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-3">
+                        <div className="space-y-2">
+                          <div className="text-sm text-muted-foreground">LinkedIn Profile:</div>
+                          <div className="text-sm">{subject.platforms.find((p) => p.name === "LinkedIn")?.url}</div>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="px-3 py-2">
+                        <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
+                        <Button variant="outline" size="sm">
+                          View Details
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="tiktok" className="space-y-4">
+              <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {subjects
+                  .filter((subject) => subject.platforms.some((p) => p.name === "TikTok"))
+                  .map((subject) => (
+                    <Card key={subject.id}>
+                      <CardHeader className="pb-1 pt-3 px-3">
+                        <div className="flex items-center gap-2">
+                          <Avatar>
+                            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                            <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <CardTitle className="text-lg">{subject.name}</CardTitle>
+                            <div className="flex items-center gap-1 mt-1">
+                              <div className={`h-2 w-2 rounded-full ${getActivityColor(subject.activity)}`} />
+                              <CardDescription>{subject.activity} activity</CardDescription>
+                            </div>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-3">
+                        <div className="space-y-2">
+                          <div className="text-sm text-muted-foreground">TikTok Profile:</div>
+                          <div className="text-sm">{subject.platforms.find((p) => p.name === "TikTok")?.url}</div>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="px-3 py-2">
                         <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
                         <Button variant="outline" size="sm">
                           View Details

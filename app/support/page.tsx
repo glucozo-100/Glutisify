@@ -119,13 +119,13 @@ export default function SupportPage() {
       <AppSidebar />
       <main className="flex-1">
         <DashboardHeader />
-        <div className="p-6">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold">Help & Support</h2>
-            <p className="text-muted-foreground">Find answers, guides, and support resources</p>
+        <div className="p-3 md:p-4">
+          <div className="mb-4">
+            <h2 className="text-xl font-bold">Help & Support</h2>
+            <p className="text-sm text-muted-foreground">Find answers, guides, and support resources</p>
           </div>
 
-          <div className="mb-8">
+          <div className="mb-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -137,7 +137,7 @@ export default function SupportPage() {
             </div>
           </div>
 
-          <Tabs defaultValue="guides" className="space-y-4">
+          <Tabs defaultValue="guides" className="space-y-3">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="guides">Guides</TabsTrigger>
               <TabsTrigger value="faqs">FAQs</TabsTrigger>
@@ -145,15 +145,15 @@ export default function SupportPage() {
             </TabsList>
 
             <TabsContent value="guides" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {filteredGuides.map((guide, index) => (
                   <Card key={index} className="overflow-hidden">
-                    <CardHeader className="pb-2">
+                    <CardHeader className="pb-1 pt-3 px-3">
                       <div className="flex justify-between items-start">
                         <Badge variant="outline">{guide.category}</Badge>
                       </div>
                     </CardHeader>
-                    <CardContent className="pt-0">
+                    <CardContent className="p-3">
                       <div className="flex items-start gap-4">
                         <div className="mt-1 p-2 bg-primary/10 rounded-lg text-primary">{guide.icon}</div>
                         <div>
@@ -162,7 +162,7 @@ export default function SupportPage() {
                         </div>
                       </div>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="px-3 py-2">
                       <Button variant="outline" className="w-full">
                         Read Guide
                       </Button>
@@ -318,9 +318,9 @@ export default function SupportPage() {
             </TabsContent>
           </Tabs>
 
-          <div className="mt-8">
-            <h3 className="text-lg font-medium mb-4">Support Team</h3>
-            <div className="grid gap-4 md:grid-cols-4">
+          <div className="mt-6">
+            <h3 className="text-lg font-medium mb-3">Support Team</h3>
+            <div className="grid gap-3 md:grid-cols-4">
               {[1, 2, 3, 4].map((i) => (
                 <Card key={i}>
                   <CardContent className="pt-6 text-center">

@@ -6,7 +6,6 @@ import { DashboardHeader } from "@/components/dashboard-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { SubjectMetricsCards } from "@/components/subject-metrics-cards"
-import { SubjectOverview } from "@/components/subject-overview"
 import { SubjectPerformanceTable } from "@/components/subject-performance-table"
 import { SubjectInsightsCard } from "@/components/subject-insights-card"
 import { DatePickerWithRange } from "@/components/date-range-picker"
@@ -82,7 +81,6 @@ export default function DashboardPage() {
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
-              <TabsTrigger value="subjects">Subjects</TabsTrigger>
               <TabsTrigger value="insights">Insights</TabsTrigger>
             </TabsList>
 
@@ -243,10 +241,6 @@ export default function DashboardPage() {
                   />
                 </CardContent>
               </Card>
-            </TabsContent>
-
-            <TabsContent value="subjects" className="space-y-4">
-              <SubjectOverview />
             </TabsContent>
 
             <TabsContent value="insights" className="space-y-4">

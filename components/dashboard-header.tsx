@@ -15,22 +15,22 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export function DashboardHeader() {
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+    <header className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b bg-background px-3 md:px-4">
       <div className="md:hidden">
         <SidebarTrigger />
       </div>
       <div className="flex-1">
-        <h1 className="text-xl font-semibold">Dashboard</h1>
+        <h1 className="text-lg font-semibold">Dashboard</h1>
       </div>
-      <div className="hidden md:flex md:flex-1 md:items-center md:gap-4 md:justify-end">
+      <div className="hidden md:flex md:flex-1 md:items-center md:gap-2 md:justify-end">
         <form className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input type="search" placeholder="Search..." className="w-64 pl-8 bg-background" />
+          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+          <Input type="search" placeholder="Search..." className="w-56 pl-8 h-9 bg-background" />
         </form>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon" className="rounded-full">
+          <Button variant="outline" size="icon" className="rounded-full h-8 w-8">
             <Bell className="h-4 w-4" />
             <span className="sr-only">Notifications</span>
           </Button>
@@ -51,8 +51,8 @@ export function DashboardHeader() {
       </DropdownMenu>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <Avatar>
+          <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
+            <Avatar className="h-8 w-8">
               <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
               <AvatarFallback>U</AvatarFallback>
             </Avatar>

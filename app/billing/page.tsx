@@ -93,55 +93,55 @@ export default function BillingPage() {
       <AppSidebar />
       <main className="flex-1">
         <DashboardHeader />
-        <div className="p-6">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold">Billing & Subscription</h2>
-            <p className="text-muted-foreground">Manage your subscription plan and billing information</p>
+        <div className="p-3 md:p-4">
+          <div className="mb-3">
+            <h2 className="text-xl font-bold">Billing & Subscription</h2>
+            <p className="text-sm text-muted-foreground">Manage your subscription plan and billing information</p>
           </div>
 
-          <Tabs defaultValue="subscription" className="space-y-4">
+          <Tabs defaultValue="subscription" className="space-y-3">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="subscription">Subscription</TabsTrigger>
               <TabsTrigger value="invoices">Invoices</TabsTrigger>
             </TabsList>
 
             <TabsContent value="subscription" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Current Plan</CardTitle>
-                  <CardDescription>You are currently on the Professional plan</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
-                    <div className="space-y-1">
-                      <h3 className="font-medium">Professional Plan</h3>
-                      <p className="text-sm text-muted-foreground">Next billing on August 15, 2023 • $29.99/month</p>
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                <Card className="lg:col-span-4">
+                  <CardHeader>
+                    <CardTitle>Current Plan</CardTitle>
+                    <CardDescription>You are currently on the Professional plan</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
+                      <div className="space-y-1">
+                        <h3 className="font-medium">Professional Plan</h3>
+                        <p className="text-sm text-muted-foreground">Next billing on August 15, 2023 • $29.99/month</p>
+                      </div>
+                      <Badge className="bg-green-50 text-green-700 border-green-200">Active</Badge>
                     </div>
-                    <Badge className="bg-green-50 text-green-700 border-green-200">Active</Badge>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex flex-col items-start gap-2">
-                  <div className="flex gap-2">
-                    <Button variant="outline">Change Plan</Button>
-                    <Button variant="outline" className="text-red-500 hover:text-red-600">
-                      Cancel Subscription
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Cancelling your subscription will disable access to premium features at the end of your billing
-                    period.
-                  </p>
-                </CardFooter>
-              </Card>
+                  </CardContent>
+                  <CardFooter className="flex flex-col items-start gap-2">
+                    <div className="flex gap-2">
+                      <Button variant="outline">Change Plan</Button>
+                      <Button variant="outline" className="text-red-500 hover:text-red-600">
+                        Cancel Subscription
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Cancelling your subscription will disable access to premium features at the end of your billing
+                      period.
+                    </p>
+                  </CardFooter>
+                </Card>
 
-              <div className="grid gap-4 md:grid-cols-3">
                 {plans.map((plan) => (
                   <Card key={plan.name} className={plan.current ? "border-primary" : ""}>
-                    <CardHeader>
+                    <CardHeader className="pb-1 pt-3 px-3">
                       <CardTitle>{plan.name}</CardTitle>
                       <CardDescription>{plan.description}</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-3 p-3">
                       <div className="text-3xl font-bold">
                         {plan.price}
                         <span className="text-sm font-normal text-muted-foreground"> / month</span>
@@ -155,7 +155,7 @@ export default function BillingPage() {
                         ))}
                       </ul>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="px-3 py-2">
                       {plan.current ? (
                         <Button className="w-full" disabled>
                           Current Plan
@@ -168,85 +168,87 @@ export default function BillingPage() {
                     </CardFooter>
                   </Card>
                 ))}
-              </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Payment Method</CardTitle>
-                  <CardDescription>Manage your payment details</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 border rounded-lg">
-                    <CreditCard className="h-8 w-8 text-muted-foreground" />
-                    <div>
-                      <p className="font-medium">Visa ending in 4242</p>
-                      <p className="text-sm text-muted-foreground">Expires 12/2025</p>
+                <Card className="lg:col-span-4">
+                  <CardHeader>
+                    <CardTitle>Payment Method</CardTitle>
+                    <CardDescription>Manage your payment details</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4 p-4 border rounded-lg">
+                      <CreditCard className="h-8 w-8 text-muted-foreground" />
+                      <div>
+                        <p className="font-medium">Visa ending in 4242</p>
+                        <p className="text-sm text-muted-foreground">Expires 12/2025</p>
+                      </div>
+                      <Button variant="outline" size="sm" className="ml-auto">
+                        Update
+                      </Button>
                     </div>
-                    <Button variant="outline" size="sm" className="ml-auto">
-                      Update
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
 
             <TabsContent value="invoices" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Billing History</CardTitle>
-                  <CardDescription>View and download your past invoices</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="rounded-md border">
-                    <div className="grid grid-cols-5 p-4 bg-muted/50 font-medium text-sm">
-                      <div>Invoice</div>
-                      <div>Date</div>
-                      <div>Amount</div>
-                      <div>Status</div>
-                      <div className="text-right">Actions</div>
-                    </div>
-                    {invoices.map((invoice) => (
-                      <div key={invoice.id} className="grid grid-cols-5 p-4 border-t items-center">
-                        <div>{invoice.id}</div>
-                        <div>{invoice.date}</div>
-                        <div>{invoice.amount}</div>
-                        <div>
-                          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                            {invoice.status}
-                          </Badge>
-                        </div>
-                        <div className="text-right">
-                          <Button variant="ghost" size="sm" asChild>
-                            <a href={invoice.downloadUrl} download>
-                              <Download className="h-4 w-4 mr-1" />
-                              PDF
-                            </a>
-                          </Button>
-                        </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <Card className="lg:col-span-2">
+                  <CardHeader>
+                    <CardTitle>Billing History</CardTitle>
+                    <CardDescription>View and download your past invoices</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="rounded-md border">
+                      <div className="grid grid-cols-5 p-4 bg-muted/50 font-medium text-sm">
+                        <div>Invoice</div>
+                        <div>Date</div>
+                        <div>Amount</div>
+                        <div>Status</div>
+                        <div className="text-right">Actions</div>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Billing Address</CardTitle>
-                  <CardDescription>Your billing address information</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="p-4 border rounded-lg">
-                    <div className="space-y-1">
-                      <p className="font-medium">John Doe</p>
-                      <p className="text-sm">123 Main Street</p>
-                      <p className="text-sm">Apt 4B</p>
-                      <p className="text-sm">New York, NY 10001</p>
-                      <p className="text-sm">United States</p>
+                      {invoices.map((invoice) => (
+                        <div key={invoice.id} className="grid grid-cols-5 p-4 border-t items-center">
+                          <div>{invoice.id}</div>
+                          <div>{invoice.date}</div>
+                          <div>{invoice.amount}</div>
+                          <div>
+                            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                              {invoice.status}
+                            </Badge>
+                          </div>
+                          <div className="text-right">
+                            <Button variant="ghost" size="sm" asChild>
+                              <a href={invoice.downloadUrl} download>
+                                <Download className="h-4 w-4 mr-1" />
+                                PDF
+                              </a>
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                  <Button variant="outline">Update Billing Address</Button>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Billing Address</CardTitle>
+                    <CardDescription>Your billing address information</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="p-4 border rounded-lg">
+                      <div className="space-y-1">
+                        <p className="font-medium">John Doe</p>
+                        <p className="text-sm">123 Main Street</p>
+                        <p className="text-sm">Apt 4B</p>
+                        <p className="text-sm">New York, NY 10001</p>
+                        <p className="text-sm">United States</p>
+                      </div>
+                    </div>
+                    <Button variant="outline">Update Billing Address</Button>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
