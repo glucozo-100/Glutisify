@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Facebook, Instagram, Linkedin, TwitterIcon as TikTok } from "lucide-react"
+import { getUserAvatar } from "@/utils/avatar"
 
 export function SubjectOverview() {
   const subjects = [
@@ -67,9 +68,12 @@ export function SubjectOverview() {
   return (
     <div className="space-y-4">
       {subjects.map((subject) => (
-        <div key={subject.id} className="flex items-center gap-4 rounded-lg border p-4">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+        <div
+          key={subject.id}
+          className="flex items-center gap-4 rounded-lg border p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+        >
+          <Avatar className="h-10 w-10 border shadow-sm">
+            <AvatarImage src={getUserAvatar(subject.name, "avataaars", 40) || "/placeholder.svg"} alt={subject.name} />
             <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1">

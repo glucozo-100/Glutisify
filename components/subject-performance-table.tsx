@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ArrowDown, ArrowUp, Facebook, Instagram, Linkedin, TwitterIcon as TikTok } from "lucide-react"
+import { getUserAvatar } from "@/utils/avatar"
 
 export function SubjectPerformanceTable() {
   const subjects = [
@@ -85,10 +86,16 @@ export function SubjectPerformanceTable() {
         <div className="col-span-1">Performance</div>
       </div>
       {subjects.map((subject, index) => (
-        <div key={index} className="grid grid-cols-7 p-4 border-t items-center">
+        <div
+          key={index}
+          className="grid grid-cols-7 p-4 border-t items-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+        >
           <div className="col-span-2 flex items-center gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={`/placeholder.svg?height=32&width=32`} />
+            <Avatar className="h-8 w-8 border shadow-sm">
+              <AvatarImage
+                src={getUserAvatar(subject.name, "avataaars", 32) || "/placeholder.svg"}
+                alt={subject.name}
+              />
               <AvatarFallback>{subject.name[0]}</AvatarFallback>
             </Avatar>
             <div>

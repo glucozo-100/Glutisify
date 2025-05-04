@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useAuthCheck } from "@/utils/auth"
+import { getUserAvatar } from "@/utils/avatar"
 
 export default function SubjectsPage() {
   useAuthCheck() // This will redirect to login if not authenticated
@@ -164,21 +165,46 @@ export default function SubjectsPage() {
           </div>
 
           <Tabs defaultValue="all" className="space-y-3">
-            <TabsList>
-              <TabsTrigger value="all">All Subjects</TabsTrigger>
-              <TabsTrigger value="instagram">Instagram</TabsTrigger>
-              <TabsTrigger value="facebook">Facebook</TabsTrigger>
-              <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
-              <TabsTrigger value="tiktok">TikTok</TabsTrigger>
+            <TabsList className="bg-blue-50/50 dark:bg-slate-800/50">
+              <TabsTrigger value="all" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800">
+                All Subjects
+              </TabsTrigger>
+              <TabsTrigger
+                value="instagram"
+                className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800"
+              >
+                Instagram
+              </TabsTrigger>
+              <TabsTrigger
+                value="facebook"
+                className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800"
+              >
+                Facebook
+              </TabsTrigger>
+              <TabsTrigger
+                value="linkedin"
+                className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800"
+              >
+                LinkedIn
+              </TabsTrigger>
+              <TabsTrigger
+                value="tiktok"
+                className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800"
+              >
+                TikTok
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="space-y-4">
               <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {subjects.map((subject) => (
-                  <Card key={subject.id}>
+                  <Card key={subject.id} className="overflow-hidden hover:shadow-md transition-shadow">
                     <CardHeader className="pb-1 pt-3 px-3">
                       <div className="flex items-center gap-2">
-                        <Avatar>
-                          <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                        <Avatar className="border shadow-sm">
+                          <AvatarImage
+                            src={getUserAvatar(subject.name, "avataaars", 40) || "/placeholder.svg"}
+                            alt={subject.name}
+                          />
                           <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
@@ -203,7 +229,7 @@ export default function SubjectsPage() {
                         </div>
                       </div>
                     </CardContent>
-                    <CardFooter className="px-3 py-2">
+                    <CardFooter className="px-3 py-2 flex items-center justify-between">
                       <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
                       <Button variant="outline" size="sm">
                         View Details
@@ -218,11 +244,14 @@ export default function SubjectsPage() {
                 {subjects
                   .filter((subject) => subject.platforms.some((p) => p.name === "Instagram"))
                   .map((subject) => (
-                    <Card key={subject.id}>
+                    <Card key={subject.id} className="overflow-hidden hover:shadow-md transition-shadow">
                       <CardHeader className="pb-1 pt-3 px-3">
                         <div className="flex items-center gap-2">
-                          <Avatar>
-                            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                          <Avatar className="border shadow-sm">
+                            <AvatarImage
+                              src={getUserAvatar(subject.name, "avataaars", 40) || "/placeholder.svg"}
+                              alt={subject.name}
+                            />
                             <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
                           </Avatar>
                           <div>
@@ -240,7 +269,7 @@ export default function SubjectsPage() {
                           <div className="text-sm">{subject.platforms.find((p) => p.name === "Instagram")?.url}</div>
                         </div>
                       </CardContent>
-                      <CardFooter className="px-3 py-2">
+                      <CardFooter className="px-3 py-2 flex items-center justify-between">
                         <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
                         <Button variant="outline" size="sm">
                           View Details
@@ -256,11 +285,14 @@ export default function SubjectsPage() {
                 {subjects
                   .filter((subject) => subject.platforms.some((p) => p.name === "Facebook"))
                   .map((subject) => (
-                    <Card key={subject.id}>
+                    <Card key={subject.id} className="overflow-hidden hover:shadow-md transition-shadow">
                       <CardHeader className="pb-1 pt-3 px-3">
                         <div className="flex items-center gap-2">
-                          <Avatar>
-                            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                          <Avatar className="border shadow-sm">
+                            <AvatarImage
+                              src={getUserAvatar(subject.name, "avataaars", 40) || "/placeholder.svg"}
+                              alt={subject.name}
+                            />
                             <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
                           </Avatar>
                           <div>
@@ -278,7 +310,7 @@ export default function SubjectsPage() {
                           <div className="text-sm">{subject.platforms.find((p) => p.name === "Facebook")?.url}</div>
                         </div>
                       </CardContent>
-                      <CardFooter className="px-3 py-2">
+                      <CardFooter className="px-3 py-2 flex items-center justify-between">
                         <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
                         <Button variant="outline" size="sm">
                           View Details
@@ -294,11 +326,14 @@ export default function SubjectsPage() {
                 {subjects
                   .filter((subject) => subject.platforms.some((p) => p.name === "LinkedIn"))
                   .map((subject) => (
-                    <Card key={subject.id}>
+                    <Card key={subject.id} className="overflow-hidden hover:shadow-md transition-shadow">
                       <CardHeader className="pb-1 pt-3 px-3">
                         <div className="flex items-center gap-2">
-                          <Avatar>
-                            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                          <Avatar className="border shadow-sm">
+                            <AvatarImage
+                              src={getUserAvatar(subject.name, "avataaars", 40) || "/placeholder.svg"}
+                              alt={subject.name}
+                            />
                             <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
                           </Avatar>
                           <div>
@@ -316,7 +351,7 @@ export default function SubjectsPage() {
                           <div className="text-sm">{subject.platforms.find((p) => p.name === "LinkedIn")?.url}</div>
                         </div>
                       </CardContent>
-                      <CardFooter className="px-3 py-2">
+                      <CardFooter className="px-3 py-2 flex items-center justify-between">
                         <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
                         <Button variant="outline" size="sm">
                           View Details
@@ -332,11 +367,14 @@ export default function SubjectsPage() {
                 {subjects
                   .filter((subject) => subject.platforms.some((p) => p.name === "TikTok"))
                   .map((subject) => (
-                    <Card key={subject.id}>
+                    <Card key={subject.id} className="overflow-hidden hover:shadow-md transition-shadow">
                       <CardHeader className="pb-1 pt-3 px-3">
                         <div className="flex items-center gap-2">
-                          <Avatar>
-                            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                          <Avatar className="border shadow-sm">
+                            <AvatarImage
+                              src={getUserAvatar(subject.name, "avataaars", 40) || "/placeholder.svg"}
+                              alt={subject.name}
+                            />
                             <AvatarFallback>{subject.name.charAt(0)}</AvatarFallback>
                           </Avatar>
                           <div>
@@ -354,7 +392,7 @@ export default function SubjectsPage() {
                           <div className="text-sm">{subject.platforms.find((p) => p.name === "TikTok")?.url}</div>
                         </div>
                       </CardContent>
-                      <CardFooter className="px-3 py-2">
+                      <CardFooter className="px-3 py-2 flex items-center justify-between">
                         <div className="text-xs text-muted-foreground">Last active: {subject.lastActive}</div>
                         <Button variant="outline" size="sm">
                           View Details
@@ -364,7 +402,6 @@ export default function SubjectsPage() {
                   ))}
               </div>
             </TabsContent>
-            {/* Similar content for other platform tabs */}
           </Tabs>
         </div>
       </main>

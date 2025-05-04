@@ -1,391 +1,165 @@
 "use client"
 
-import { useState } from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard-header"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
+import { Switch } from "@/components/ui/switch"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
-import { AlertCircle, Check, CreditCard, Upload } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { useAuthCheck } from "@/utils/auth"
+import { User, Mail, Phone, MapPin, Globe, Upload, Trash2 } from "lucide-react"
+import { getUserAvatar } from "@/utils/avatar"
 
 export default function AccountPage() {
-  useAuthCheck()
-  const [isEditing, setIsEditing] = useState(false)
-  const [name, setName] = useState("John Doe")
-  const [email, setEmail] = useState("john.doe@example.com")
-  const [phone, setPhone] = useState("+1 (555) 123-4567")
-
-  const subscriptionDetails = {
-    plan: "Professional",
-    status: "Active",
-    nextBilling: "August 15, 2023",
-    amount: "$29.99",
-    paymentMethod: "Visa ending in 4242",
-  }
-
-  const billingHistory = [
-    {
-      id: "INV-001",
-      date: "July 15, 2023",
-      amount: "$29.99",
-      status: "Paid",
-    },
-    {
-      id: "INV-002",
-      date: "June 15, 2023",
-      amount: "$29.99",
-      status: "Paid",
-    },
-    {
-      id: "INV-003",
-      date: "May 15, 2023",
-      amount: "$29.99",
-      status: "Paid",
-    },
-  ]
-
   return (
     <div className="flex min-h-screen">
       <AppSidebar />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1">
         <DashboardHeader />
-        <div className="p-3 md:p-4">
-          <div className="mb-3">
-            <h2 className="text-xl font-bold">Account</h2>
-            <p className="text-sm text-muted-foreground">Manage your account settings and subscription</p>
-          </div>
+        <div className="p-4 md:p-6">
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Account</h2>
+              <p className="text-muted-foreground">Manage your account information and profile settings.</p>
+            </div>
 
-          <Tabs defaultValue="profile" className="space-y-3">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="profile">Profile</TabsTrigger>
-              <TabsTrigger value="subscription">Subscription</TabsTrigger>
-              <TabsTrigger value="security">Security</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="profile" className="space-y-4">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <Card className="lg:col-span-2">
-                  <CardHeader className="pb-1 pt-3 px-3">
-                    <CardTitle>Profile Information</CardTitle>
-                    <CardDescription>Manage your personal information</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3 p-3">
-                    <div className="flex flex-col md:flex-row gap-4">
-                      <div className="flex flex-col items-center gap-2">
-                        <Avatar className="h-20 w-20">
-                          <AvatarImage src="/placeholder.svg?height=80&width=80" />
-                          <AvatarFallback>JD</AvatarFallback>
-                        </Avatar>
-                        <Button variant="outline" size="sm" className="gap-1 text-xs">
-                          <Upload className="h-3 w-3" />
-                          Change
-                        </Button>
-                      </div>
-
-                      <div className="flex-1 space-y-3">
-                        {isEditing ? (
-                          <>
-                            <div className="grid gap-1.5">
-                              <Label htmlFor="name" className="text-sm">
-                                Full Name
-                              </Label>
-                              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="h-9" />
-                            </div>
-                            <div className="grid gap-1.5">
-                              <Label htmlFor="email" className="text-sm">
-                                Email Address
-                              </Label>
-                              <Input
-                                id="email"
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="h-9"
-                              />
-                            </div>
-                            <div className="grid gap-1.5">
-                              <Label htmlFor="phone" className="text-sm">
-                                Phone Number
-                              </Label>
-                              <Input
-                                id="phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                                className="h-9"
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div className="space-y-1">
-                              <Label className="text-sm text-muted-foreground">Full Name</Label>
-                              <p className="text-sm font-medium">{name}</p>
-                            </div>
-                            <div className="space-y-1">
-                              <Label className="text-sm text-muted-foreground">Email Address</Label>
-                              <p className="text-sm font-medium">{email}</p>
-                            </div>
-                            <div className="space-y-1">
-                              <Label className="text-sm text-muted-foreground">Phone Number</Label>
-                              <p className="text-sm font-medium">{phone}</p>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="px-3 py-2">
-                    {isEditing ? (
-                      <div className="flex gap-2">
-                        <Button size="sm" onClick={() => setIsEditing(false)}>
-                          Save Changes
-                        </Button>
-                        <Button variant="outline" size="sm" onClick={() => setIsEditing(false)}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button size="sm" onClick={() => setIsEditing(true)}>
-                        Edit Profile
-                      </Button>
-                    )}
-                  </CardFooter>
-                </Card>
-
-                <Card>
-                  <CardHeader className="pb-1 pt-3 px-3">
-                    <CardTitle>Account Information</CardTitle>
-                    <CardDescription>View your account details</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3 p-3">
-                    <div className="grid gap-4 text-sm">
-                      <div className="space-y-1">
-                        <Label className="text-muted-foreground">Account Type</Label>
-                        <p className="font-medium">Professional</p>
-                      </div>
-                      <div className="space-y-1">
-                        <Label className="text-muted-foreground">Member Since</Label>
-                        <p className="font-medium">January 15, 2023</p>
-                      </div>
-                      <div className="space-y-1">
-                        <Label className="text-muted-foreground">Account Status</Label>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                            Active
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="space-y-1">
-                        <Label className="text-muted-foreground">Subjects Tracked</Label>
-                        <p className="font-medium">12</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="subscription" className="space-y-4">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <Card className="lg:col-span-2">
-                  <CardHeader className="pb-1 pt-3 px-3">
-                    <CardTitle>Subscription Details</CardTitle>
-                    <CardDescription>Manage your subscription plan</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3 p-3">
-                    <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/50">
-                      <div className="space-y-0.5">
-                        <h3 className="font-medium">{subscriptionDetails.plan} Plan</h3>
-                        <p className="text-xs text-muted-foreground">
-                          Next billing on {subscriptionDetails.nextBilling} • {subscriptionDetails.amount}/month
-                        </p>
-                      </div>
-                      <Badge className="bg-green-50 text-green-700 border-green-200">
-                        {subscriptionDetails.status}
-                      </Badge>
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium">Payment Method</h3>
-                      <div className="flex items-center gap-3 p-3 border rounded-lg">
-                        <CreditCard className="h-6 w-6 text-muted-foreground" />
-                        <div>
-                          <p className="text-sm font-medium">{subscriptionDetails.paymentMethod}</p>
-                          <p className="text-xs text-muted-foreground">Expires 12/2025</p>
-                        </div>
-                        <Button variant="outline" size="sm" className="ml-auto text-xs">
-                          Update
-                        </Button>
-                      </div>
-                    </div>
-
-                    <Separator />
-
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium">Billing History</h3>
-                      <div className="rounded-md border text-sm">
-                        <div className="grid grid-cols-4 p-2 bg-muted/50 font-medium text-xs">
-                          <div>Invoice</div>
-                          <div>Date</div>
-                          <div>Amount</div>
-                          <div>Status</div>
-                        </div>
-                        {billingHistory.map((invoice) => (
-                          <div key={invoice.id} className="grid grid-cols-4 p-2 border-t items-center">
-                            <div>{invoice.id}</div>
-                            <div>{invoice.date}</div>
-                            <div>{invoice.amount}</div>
-                            <div>
-                              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
-                                {invoice.status}
-                              </Badge>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="px-3 py-2 flex flex-col items-start gap-2">
-                    <div className="flex gap-2">
-                      <Button size="sm">Upgrade Plan</Button>
-                      <Button variant="outline" size="sm">
-                        Cancel Subscription
-                      </Button>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Cancelling your subscription will disable access to premium features at the end of your billing
-                      period.
-                    </p>
-                  </CardFooter>
-                </Card>
-
-                <Card>
-                  <CardHeader className="pb-1 pt-3 px-3">
-                    <CardTitle>Plan Benefits</CardTitle>
-                    <CardDescription>Your current plan features</CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-3">
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-center">
-                        <Check className="mr-2 h-4 w-4 text-green-500" />
-                        Track up to 20 subjects
-                      </li>
-                      <li className="flex items-center">
-                        <Check className="mr-2 h-4 w-4 text-green-500" />
-                        Advanced analytics
-                      </li>
-                      <li className="flex items-center">
-                        <Check className="mr-2 h-4 w-4 text-green-500" />
-                        30-day data retention
-                      </li>
-                      <li className="flex items-center">
-                        <Check className="mr-2 h-4 w-4 text-green-500" />
-                        Priority email support
-                      </li>
-                      <li className="flex items-center">
-                        <Check className="mr-2 h-4 w-4 text-green-500" />
-                        API access
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="security" className="space-y-4">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <Card className="lg:col-span-2">
-                  <CardHeader className="pb-1 pt-3 px-3">
-                    <CardTitle>Security Settings</CardTitle>
-                    <CardDescription>Manage your account security</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3 p-3">
-                    <div className="space-y-3">
-                      <h3 className="text-sm font-medium">Change Password</h3>
-                      <div className="grid gap-3">
-                        <div className="grid gap-1.5">
-                          <Label htmlFor="current-password" className="text-sm">
-                            Current Password
-                          </Label>
-                          <Input id="current-password" type="password" className="h-9" />
-                        </div>
-                        <div className="grid gap-1.5">
-                          <Label htmlFor="new-password" className="text-sm">
-                            New Password
-                          </Label>
-                          <Input id="new-password" type="password" className="h-9" />
-                        </div>
-                        <div className="grid gap-1.5">
-                          <Label htmlFor="confirm-password" className="text-sm">
-                            Confirm New Password
-                          </Label>
-                          <Input id="confirm-password" type="password" className="h-9" />
-                        </div>
-                      </div>
-                      <Button size="sm">Update Password</Button>
-                    </div>
-
-                    <Separator />
-
-                    <div className="space-y-3">
-                      <h3 className="text-sm font-medium">Two-Factor Authentication</h3>
-                      <Alert>
-                        <AlertCircle className="h-4 w-4" />
-                        <AlertTitle className="text-sm">Not Enabled</AlertTitle>
-                        <AlertDescription className="text-xs">
-                          Two-factor authentication is not enabled yet. Enable it for increased security.
-                        </AlertDescription>
-                      </Alert>
-                      <Button size="sm">Enable 2FA</Button>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="pb-1 pt-3 px-3">
-                    <CardTitle>Active Sessions</CardTitle>
-                    <CardDescription>Manage your active sessions</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3 p-3">
-                    <div className="rounded-md border text-sm">
-                      <div className="p-3 border-b">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <p className="font-medium">Current Session</p>
-                            <p className="text-xs text-muted-foreground">Windows • Chrome • New York, USA</p>
-                          </div>
-                          <Badge className="bg-green-50 text-green-700 border-green-200 flex items-center gap-1 text-xs">
-                            <Check className="h-3 w-3" /> Active Now
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="p-3">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <p className="font-medium">Mobile Session</p>
-                            <p className="text-xs text-muted-foreground">iOS • Safari • New York, USA</p>
-                          </div>
-                          <Button variant="outline" size="sm" className="text-xs">
-                            Sign Out
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm">
-                      Sign Out All Devices
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <Card className="border-blue-100 dark:border-slate-700 shadow-sm col-span-1">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-blue-700 dark:text-blue-300">Profile Picture</CardTitle>
+                  <CardDescription>Update your profile picture and personal information.</CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col items-center justify-center space-y-4 pt-4">
+                  <Avatar className="h-32 w-32 border-4 border-blue-100 dark:border-slate-700">
+                    <AvatarImage src={getUserAvatar("user") || "/placeholder.svg"} alt="Profile" />
+                    <AvatarFallback className="bg-blue-100 dark:bg-slate-700 text-blue-700 dark:text-blue-300 text-2xl">
+                      JD
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex gap-1">
+                      <Upload className="h-4 w-4" />
+                      Upload
                     </Button>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-          </Tabs>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex gap-1 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Remove
+                    </Button>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Recommended: Square JPG, PNG, or GIF, at least 300x300 pixels.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-blue-100 dark:border-slate-700 shadow-sm md:col-span-2">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-blue-700 dark:text-blue-300">Personal Information</CardTitle>
+                  <CardDescription>Update your personal information and contact details.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="first-name" className="flex items-center gap-1">
+                        <User className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                        First Name
+                      </Label>
+                      <Input id="first-name" defaultValue="John" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="last-name" className="flex items-center gap-1">
+                        <User className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                        Last Name
+                      </Label>
+                      <Input id="last-name" defaultValue="Doe" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="flex items-center gap-1">
+                        <Mail className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                        Email
+                      </Label>
+                      <Input id="email" type="email" defaultValue="john.doe@example.com" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone" className="flex items-center gap-1">
+                        <Phone className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                        Phone
+                      </Label>
+                      <Input id="phone" type="tel" defaultValue="+1 (555) 123-4567" />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="address" className="flex items-center gap-1">
+                        <MapPin className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                        Address
+                      </Label>
+                      <Input id="address" defaultValue="123 Main St, Anytown, CA 12345" />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="bio" className="flex items-center gap-1">
+                        <Globe className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                        Bio
+                      </Label>
+                      <Textarea
+                        id="bio"
+                        className="min-h-[100px]"
+                        defaultValue="Product manager with 5+ years of experience in the tech industry. Passionate about creating user-friendly products that solve real problems."
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-between border-t border-blue-50 dark:border-slate-700 pt-4">
+                  <Button variant="outline">Cancel</Button>
+                  <Button>Save Changes</Button>
+                </CardFooter>
+              </Card>
+
+              <Card className="border-blue-100 dark:border-slate-700 shadow-sm md:col-span-3">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-blue-700 dark:text-blue-300">Privacy Settings</CardTitle>
+                  <CardDescription>Control how your information is displayed and shared.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="public-profile">Public Profile</Label>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Make your profile visible to other users.
+                      </p>
+                    </div>
+                    <Switch id="public-profile" defaultChecked />
+                  </div>
+                  <div className="flex items-center justify-between pt-4">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="show-email">Show Email</Label>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Display your email address on your public profile.
+                      </p>
+                    </div>
+                    <Switch id="show-email" />
+                  </div>
+                  <div className="flex items-center justify-between pt-4">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="show-activity">Activity Status</Label>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Show when you're active on the platform.
+                      </p>
+                    </div>
+                    <Switch id="show-activity" defaultChecked />
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-between border-t border-blue-50 dark:border-slate-700 pt-4">
+                  <Button variant="outline">Cancel</Button>
+                  <Button>Save Changes</Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
         </div>
       </main>
     </div>

@@ -1,15 +1,7 @@
 "use client"
 
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "@/components/ui/chart"
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "@/components/ui/chart"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
 export function GrowthChart({ metric = "followers" }) {
   // Sample data
@@ -120,26 +112,48 @@ export function GrowthChart({ metric = "followers" }) {
   const data = metric === "followers" ? followerData : engagementData
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="instagram" stroke="#E1306C" activeDot={{ r: 8 }} />
-        <Line type="monotone" dataKey="facebook" stroke="#4267B2" />
-        <Line type="monotone" dataKey="tiktok" stroke="#000000" />
-        <Line type="monotone" dataKey="linkedin" stroke="#0077B5" />
-      </LineChart>
-    </ResponsiveContainer>
+    <ChartContainer
+      config={{
+        instagram: {
+          label: "Instagram",
+          color: "hsl(330, 60%, 55%)",
+        },
+        facebook: {
+          label: "Facebook",
+          color: "hsl(220, 60%, 50%)",
+        },
+        tiktok: {
+          label: "TikTok",
+          color: "hsl(0, 0%, 0%)",
+        },
+        linkedin: {
+          label: "LinkedIn",
+          color: "hsl(210, 90%, 40%)",
+        },
+      }}
+      className="h-full w-full"
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <Legend />
+          <Line type="monotone" dataKey="instagram" stroke="var(--color-instagram)" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="facebook" stroke="var(--color-facebook)" />
+          <Line type="monotone" dataKey="tiktok" stroke="var(--color-tiktok)" />
+          <Line type="monotone" dataKey="linkedin" stroke="var(--color-linkedin)" />
+        </LineChart>
+      </ResponsiveContainer>
+    </ChartContainer>
   )
 }
