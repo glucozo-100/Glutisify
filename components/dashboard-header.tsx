@@ -1,5 +1,5 @@
 "use client"
-import { Bell, Moon, Search, Sun, User2, Settings, LogOut } from "lucide-react"
+import { Bell, Moon, Search, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { useTheme } from "@/components/theme-provider"
 import { Badge } from "@/components/ui/badge"
+import { getUserAvatar } from "@/utils/avatar"
 
 export function DashboardHeader() {
   const { theme, setTheme } = useTheme()
@@ -70,15 +71,23 @@ export function DashboardHeader() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <div className="max-h-80 overflow-auto">
-            {[1, 2, 3].map((i) => (
-              <DropdownMenuItem key={i} className="p-0">
+            {[
+              { id: 1, name: "John Smith", message: "New activity from Subject #1", time: "2 hours ago" },
+              { id: 2, name: "Sarah Johnson", message: "New activity from Subject #2", time: "3 hours ago" },
+              { id: 3, name: "Michael Brown", message: "New activity from Subject #3", time: "5 hours ago" },
+            ].map((notification) => (
+              <DropdownMenuItem key={notification.id} className="p-0">
                 <div className="flex w-full items-center gap-2 p-2 cursor-pointer hover:bg-blue-50 dark:hover:bg-slate-800 rounded-md">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 dark:bg-slate-800">
-                    <User2 className="h-5 w-5 text-blue-700 dark:text-blue-400" />
-                  </div>
+                  <Avatar className="h-10 w-10 border shadow-sm">
+                    <AvatarImage
+                      src={getUserAvatar(notification.name, "avataaars", 40) || "/placeholder.svg"}
+                      alt={notification.name}
+                    />
+                    <AvatarFallback>{notification.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
                   <div className="flex-1 space-y-1">
-                    <p className="text-sm font-medium leading-none">New activity from Subject #{i}</p>
-                    <p className="text-xs text-muted-foreground">2 hours ago</p>
+                    <p className="text-sm font-medium leading-none">{notification.message}</p>
+                    <p className="text-xs text-muted-foreground">{notification.time}</p>
                   </div>
                   <div className="flex h-2 w-2 rounded-full bg-blue-600"></div>
                 </div>
@@ -88,52 +97,6 @@ export function DashboardHeader() {
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer justify-center text-center font-medium text-blue-600 dark:text-blue-400">
             View all notifications
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full h-10 w-10 p-0 overflow-hidden border-2 border-blue-100 dark:border-slate-700"
-          >
-            <Avatar className="h-full w-full">
-              <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
-              <AvatarFallback className="bg-blue-100 dark:bg-slate-800 text-blue-700 dark:text-blue-400">
-                JD
-              </AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <div className="flex items-center justify-start gap-2 p-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 dark:bg-slate-800 overflow-hidden">
-              <Avatar className="h-full w-full">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
-                <AvatarFallback className="bg-blue-100 dark:bg-slate-800 text-blue-700 dark:text-blue-400">
-                  JD
-                </AvatarFallback>
-              </Avatar>
-            </div>
-            <div className="flex flex-col space-y-0.5">
-              <p className="text-sm font-medium leading-none">John Doe</p>
-              <p className="text-xs leading-none text-muted-foreground">john.doe@example.com</p>
-            </div>
-          </div>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
-            <User2 className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer text-red-600 dark:text-red-400 focus:text-red-700 dark:focus:text-red-300">
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Log out</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

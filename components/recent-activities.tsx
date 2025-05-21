@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Facebook, Instagram, Linkedin, TwitterIcon as TikTok } from "lucide-react"
+import { getUserAvatar } from "@/utils/avatar"
 
 export function RecentActivities() {
   const activities = [
@@ -50,9 +51,15 @@ export function RecentActivities() {
   return (
     <div className="space-y-4">
       {activities.map((activity) => (
-        <div key={activity.id} className="flex items-center gap-4 rounded-lg border p-3">
-          <Avatar>
-            <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+        <div
+          key={activity.id}
+          className="flex items-center gap-4 rounded-lg border p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+        >
+          <Avatar className="h-10 w-10 border shadow-sm">
+            <AvatarImage
+              src={getUserAvatar(activity.subject, "avataaars", 40) || "/placeholder.svg"}
+              alt={activity.subject}
+            />
             <AvatarFallback>{activity.subject.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1 space-y-1">

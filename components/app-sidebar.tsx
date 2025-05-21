@@ -28,6 +28,14 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { getUserAvatar } from "@/utils/avatar"
+
+// Current user data
+const currentUser = {
+  name: "John Doe",
+  email: "john.doe@example.com",
+  role: "Admin",
+}
 
 export function AppSidebar() {
   const pathname = usePathname()
@@ -68,7 +76,7 @@ export function AppSidebar() {
       >
         <div className="flex items-center justify-between h-16 px-4 border-b border-blue-100 dark:border-slate-700">
           <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-2">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold mr-2">
               S
             </div>
             {isOpen && <span className="font-bold text-lg">Social Tracker</span>}
@@ -190,14 +198,22 @@ export function AppSidebar() {
           )}
         >
           <div className="flex items-center">
-            <Avatar className="h-9 w-9">
-              <AvatarImage src="/placeholder.svg?height=36&width=36" alt="Avatar" />
-              <AvatarFallback>JD</AvatarFallback>
+            <Avatar className="h-9 w-9 border-2 border-blue-100 dark:border-slate-700">
+              <AvatarImage
+                src={getUserAvatar(currentUser.name, "avataaars", 36) || "/placeholder.svg"}
+                alt={currentUser.name}
+              />
+              <AvatarFallback className="bg-blue-100 dark:bg-slate-800 text-blue-700 dark:text-blue-400">
+                {currentUser.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
+              </AvatarFallback>
             </Avatar>
             {isOpen && (
               <div className="ml-2">
-                <p className="text-sm font-medium">John Doe</p>
-                <p className="text-xs text-muted-foreground">john@example.com</p>
+                <p className="text-sm font-medium">{currentUser.name}</p>
+                <p className="text-xs text-muted-foreground">{currentUser.email}</p>
               </div>
             )}
           </div>
@@ -229,7 +245,7 @@ function MobileSidebar({ pathname }: { pathname?: string }) {
     <div className="flex flex-col h-full bg-gradient-to-b from-blue-50 to-white dark:from-slate-900 dark:to-slate-800">
       <div className="flex items-center justify-between h-16 px-4 border-b border-blue-100 dark:border-slate-700">
         <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-2">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold mr-2">
             S
           </div>
           <span className="font-bold text-lg">Social Tracker</span>
@@ -331,13 +347,21 @@ function MobileSidebar({ pathname }: { pathname?: string }) {
       </ScrollArea>
       <div className="border-t border-blue-100 dark:border-slate-700 p-4 flex items-center justify-between">
         <div className="flex items-center">
-          <Avatar className="h-9 w-9">
-            <AvatarImage src="/placeholder.svg?height=36&width=36" alt="Avatar" />
-            <AvatarFallback>JD</AvatarFallback>
+          <Avatar className="h-9 w-9 border-2 border-blue-100 dark:border-slate-700">
+            <AvatarImage
+              src={getUserAvatar(currentUser.name, "avataaars", 36) || "/placeholder.svg"}
+              alt={currentUser.name}
+            />
+            <AvatarFallback className="bg-blue-100 dark:bg-slate-800 text-blue-700 dark:text-blue-400">
+              {currentUser.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
+            </AvatarFallback>
           </Avatar>
           <div className="ml-2">
-            <p className="text-sm font-medium">John Doe</p>
-            <p className="text-xs text-muted-foreground">john@example.com</p>
+            <p className="text-sm font-medium">{currentUser.name}</p>
+            <p className="text-xs text-muted-foreground">{currentUser.email}</p>
           </div>
         </div>
         <Button variant="ghost" size="icon" className="text-muted-foreground" onClick={handleLogout}>
